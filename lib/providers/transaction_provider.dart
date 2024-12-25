@@ -8,27 +8,27 @@ class TransactionProvider with ChangeNotifier {
   // Exchange rates (simplified - in real app, these should come from an API)
   final Map<Currency, Map<Currency, double>> _exchangeRates = {
     Currency.USD: {
-      Currency.EUR: 0.91,
-      Currency.GBP: 0.79,
-      Currency.TRY: 29.05,
+      Currency.EUR: 0.91234,
+      Currency.GBP: 0.78901,
+      Currency.TRY: 29.05432,
       Currency.USD: 1.0,
     },
     Currency.EUR: {
-      Currency.USD: 1.10,
-      Currency.GBP: 0.87,
-      Currency.TRY: 31.93,
+      Currency.USD: 1.09615,
+      Currency.GBP: 0.86478,
+      Currency.TRY: 31.93267,
       Currency.EUR: 1.0,
     },
     Currency.GBP: {
-      Currency.USD: 1.27,
-      Currency.EUR: 1.15,
-      Currency.TRY: 36.70,
+      Currency.USD: 1.26743,
+      Currency.EUR: 1.15636,
+      Currency.TRY: 36.70123,
       Currency.GBP: 1.0,
     },
     Currency.TRY: {
-      Currency.USD: 0.034,
-      Currency.EUR: 0.031,
-      Currency.GBP: 0.027,
+      Currency.USD: 0.034418,
+      Currency.EUR: 0.031316,
+      Currency.GBP: 0.027247,
       Currency.TRY: 1.0,
     },
   };
