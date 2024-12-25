@@ -2,9 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'add_transaction_screen.dart';
 import '../providers/transaction_provider.dart';
+import '../models/transaction.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
+  String getCurrencySymbol(Currency currency) {
+    switch (currency) {
+      case Currency.USD:
+        return '\$';
+      case Currency.EUR:
+        return '€';
+      case Currency.GBP:
+        return '£';
+      case Currency.TRY:
+        return '₺';
+    }
+  }
+
+  Widget _buildSummaryItem({
+    required String label,
+    required String amount,
+    required Color color,
+  }) {
+    return Column(
+      children: [
+        Text(
+          label,
+          style: const TextStyle(fontSize: 16, color: Colors.grey),
+        ),
+        Text(
+          amount,
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: color),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +53,27 @@ class HomeScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
         elevation: 0,
+        actions: [
+          Consumer<TransactionProvider>(
+            builder: (context, provider, _) {
+              return DropdownButton<Currency>(
+                value: provider.selectedCurrency,
+                items: Currency.values.map((currency) {
+                  return DropdownMenuItem(
+                    value: currency,
+                    child: Text(currency.toString().split('.').last),
+                  );
+                }).toList(),
+                onChanged: (Currency? newCurrency) {
+                  if (newCurrency != null) {
+                    provider.setCurrency(newCurrency);
+                  }
+                },
+              );
+            },
+          ),
+          const SizedBox(width: 16),
+        ],
       ),
       body: Consumer<TransactionProvider>(
         builder: (context, transactionProvider, child) {
@@ -46,30 +100,55 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          '₺${transactionProvider.totalBalance.toStringAsFixed(2)}',
-                          style: const TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Consumer<TransactionProvider>(
+                          builder: (context, provider, _) {
+                            return Row(
+                              children: [
+                                Text(
+                                  '${getCurrencySymbol(provider.selectedCurrency)}${provider.totalBalance.toStringAsFixed(2)}',
+                                  style: const TextStyle(
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                DropdownButton<Currency>(
+                                  value: provider.selectedCurrency,
+                                  items: Currency.values.map((currency) {
+                                    return DropdownMenuItem(
+                                      value: currency,
+                                      child: Text(currency.toString().split('.').last),
+                                    );
+                                  }).toList(),
+                                  onChanged: (Currency? newCurrency) {
+                                    if (newCurrency != null) {
+                                      provider.setCurrency(newCurrency);
+                                    }
+                                  },
+                                ),
+                              ],
+                            );
+                          },
                         ),
                         const SizedBox(height: 16),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            _buildSummaryItem(
-                              label: 'Income',
-                              amount:
-                                  '₺${transactionProvider.totalIncome.toStringAsFixed(2)}',
-                              color: Colors.green,
-                            ),
-                            _buildSummaryItem(
-                              label: 'Expenses',
-                              amount:
-                                  '₺${transactionProvider.totalExpenses.toStringAsFixed(2)}',
-                              color: Colors.red,
-                            ),
-                          ],
+                        Consumer<TransactionProvider>(
+                          builder: (context, provider, _) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                _buildSummaryItem(
+                                  label: 'Income',
+                                  amount: '${getCurrencySymbol(provider.selectedCurrency)}${provider.totalIncome.toStringAsFixed(2)}',
+                                  color: Colors.green,
+                                ),
+                                _buildSummaryItem(
+                                  label: 'Expenses',
+                                  amount: '${getCurrencySymbol(provider.selectedCurrency)}${provider.totalExpenses.toStringAsFixed(2)}',
+                                  color: Colors.red,
+                                ),
+                              ],
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -118,6 +197,7 @@ class HomeScreen extends StatelessWidget {
                                     transaction.amount,
                                     transaction.description,
                                     transaction.isIncome,
+                                    transaction.currency,
                                   );
                                 },
                               ),
@@ -129,8 +209,8 @@ class HomeScreen extends StatelessWidget {
                           child: ListTile(
                             leading: CircleAvatar(
                               backgroundColor: transaction.isIncome
-                                  ? Colors.green.withOpacity(0.1)
-                                  : Colors.red.withOpacity(0.1),
+                                  ? Colors.green.withAlpha(26)
+                                  : Colors.red.withAlpha(26),
                               child: Icon(
                                 transaction.isIncome ? Icons.add : Icons.remove,
                                 color: transaction.isIncome
@@ -143,7 +223,7 @@ class HomeScreen extends StatelessWidget {
                               transaction.date.toString().split(' ')[0],
                             ),
                             trailing: Text(
-                              '₺${transaction.amount.toStringAsFixed(2)}',
+                              '${getCurrencySymbol(transaction.currency)}${transaction.amount.toStringAsFixed(2)}',
                               style: TextStyle(
                                 color: transaction.isIncome
                                     ? Colors.green
@@ -201,34 +281,6 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildSummaryItem({
-    required String label,
-    required String amount,
-    required Color color,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Colors.grey,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          amount,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: color,
-          ),
-        ),
-      ],
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/transaction_provider.dart';
+import '../models/transaction.dart';
 
 class AddTransactionScreen extends StatefulWidget {
   final bool isIncome;
@@ -18,12 +19,26 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   final _formKey = GlobalKey<FormState>();
   final _amountController = TextEditingController();
   final _descriptionController = TextEditingController();
+  Currency _selectedCurrency = Currency.USD;
 
   @override
   void dispose() {
     _amountController.dispose();
     _descriptionController.dispose();
     super.dispose();
+  }
+
+  String getCurrencySymbol(Currency currency) {
+    switch (currency) {
+      case Currency.USD:
+        return '\$';
+      case Currency.EUR:
+        return '€';
+      case Currency.GBP:
+        return '£';
+      case Currency.TRY:
+        return '₺';
+    }
   }
 
   @override
@@ -45,38 +60,65 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextFormField(
-                controller: _amountController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'Amount',
-                  prefixText: '₺',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: TextFormField(
+                      controller: _amountController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: 'Amount',
+                        prefixText: getCurrencySymbol(_selectedCurrency),
+                        border: const OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter an amount';
+                        }
+                        if (double.tryParse(value) == null) {
+                          return 'Please enter a valid number';
+                        }
+                        return null;
+                      },
+                    ),
                   ),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter an amount:';
-                  }
-                  if (double.tryParse(value) == null) {
-                    return 'Please enter a valid number:';
-                  }
-                  return null;
-                },
+                  const SizedBox(width: 16),
+                  Expanded(
+                    flex: 1,
+                    child: DropdownButtonFormField<Currency>(
+                      value: _selectedCurrency,
+                      decoration: const InputDecoration(
+                        labelText: 'Currency',
+                        border: OutlineInputBorder(),
+                      ),
+                      items: Currency.values.map((currency) {
+                        return DropdownMenuItem(
+                          value: currency,
+                          child: Text(currency.toString().split('.').last),
+                        );
+                      }).toList(),
+                      onChanged: (Currency? newValue) {
+                        if (newValue != null) {
+                          setState(() {
+                            _selectedCurrency = newValue;
+                          });
+                        }
+                      },
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _descriptionController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Description',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+                  border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a description:';
+                    return 'Please enter a description';
                   }
                   return null;
                 },
@@ -86,21 +128,22 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     final amount = double.parse(_amountController.text);
+                    final description = _descriptionController.text;
+
                     Provider.of<TransactionProvider>(context, listen: false)
                         .addTransaction(
                       amount,
-                      _descriptionController.text,
+                      description,
                       widget.isIncome,
+                      _selectedCurrency,
                     );
-                    Navigator.pop(context);
+
+                    Navigator.of(context).pop();
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: widget.isIncome ? Colors.green : Colors.red,
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+                  backgroundColor: widget.isIncome ? Colors.green : Colors.red,
                 ),
                 child: Text(
                   widget.isIncome ? 'Add Income' : 'Add Expense',
