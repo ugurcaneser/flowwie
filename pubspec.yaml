@@ -37,18 +37,19 @@ dependencies:
   cupertino_icons: ^1.0.8
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.14.2"
   flutter_test:
     sdk: flutter
-  icons_launcher: ^3.0.0
+  
   flutter_lints: ^5.0.0
 
-icons_launcher:
-  image_path: "lib/assets/icons/wallet_7945180.png"
-  platforms:
-    android:
-      enable: true
-    ios:
-      enable: true
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "lib/assets/icons/icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
