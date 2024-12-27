@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(fontSize: 16, color: Colors.grey),
+          style: const TextStyle(fontSize: 16, color: Colors.black),
         ),
         Text(
           amount,
@@ -143,13 +143,13 @@ class HomeScreen extends StatelessWidget {
                                   label: 'Income',
                                   amount:
                                       '${getCurrencySymbol(provider.selectedCurrency)}${provider.totalIncome.toStringAsFixed(2)}',
-                                  color: Colors.green,
+                                  color: Colors.black,
                                 ),
                                 _buildSummaryItem(
                                   label: 'Expenses',
                                   amount:
                                       '${getCurrencySymbol(provider.selectedCurrency)}${provider.totalExpenses.toStringAsFixed(2)}',
-                                  color: Colors.red,
+                                  color: Colors.black,
                                 ),
                               ],
                             );
@@ -215,14 +215,10 @@ class HomeScreen extends StatelessWidget {
                           margin: const EdgeInsets.symmetric(vertical: 8),
                           child: ListTile(
                             leading: CircleAvatar(
-                              backgroundColor: transaction.isIncome
-                                  ? Colors.green.withAlpha(26)
-                                  : Colors.red.withAlpha(26),
+                              backgroundColor: Colors.white,
                               child: Icon(
                                 transaction.isIncome ? Icons.add : Icons.remove,
-                                color: transaction.isIncome
-                                    ? Colors.green
-                                    : Colors.red,
+                                color: Colors.black,
                               ),
                             ),
                             title: Text(transaction.description),
@@ -232,9 +228,7 @@ class HomeScreen extends StatelessWidget {
                             trailing: Text(
                               '${getCurrencySymbol(transaction.currency)}${transaction.amount.toStringAsFixed(2)}',
                               style: TextStyle(
-                                color: transaction.isIncome
-                                    ? Colors.green
-                                    : Colors.red,
+                                color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),

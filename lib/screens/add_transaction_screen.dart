@@ -69,12 +69,12 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final categoryProvider = Provider.of<CategoryProvider>(context);
+    Provider.of<CategoryProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.isIncome ? 'Gelir Ekle' : 'Harcama Ekle',
+          widget.isIncome ? 'Add Income' : 'Add Expense',
           style: const TextStyle(color: Colors.black87),
         ),
         backgroundColor: Colors.white,
@@ -84,7 +84,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () => _showAddCategoryDialog(context),
-            tooltip: 'Yeni Kategori Ekle',
+            tooltip: 'Add Category',
           ),
         ],
       ),
@@ -99,7 +99,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                 DropdownButtonFormField<String>(
                   value: _selectedCategoryId,
                   decoration: const InputDecoration(
-                    labelText: 'Kategori',
+                    labelText: 'Category',
                     border: OutlineInputBorder(),
                   ),
                   items: Provider.of<CategoryProvider>(context)
@@ -110,7 +110,8 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                       child: Row(
                         children: [
                           if (category.iconName != null)
-                            Icon(getIconData(category.iconName) ?? Icons.category),
+                            Icon(getIconData(category.iconName) ??
+                                Icons.category),
                           const SizedBox(width: 8),
                           Text(category.name),
                         ],
@@ -119,7 +120,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                   }).toList(),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Lütfen bir kategori seçin';
+                      return 'Please select a category';
                     }
                     return null;
                   },
@@ -136,18 +137,20 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                       flex: 2,
                       child: TextFormField(
                         controller: _amountController,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
                         decoration: InputDecoration(
-                          labelText: 'Miktar',
+                          labelText: 'Amount',
                           prefixText: getCurrencySymbol(_selectedCurrency),
                           border: const OutlineInputBorder(),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Lütfen bir miktar girin';
+                            return 'Please enter an amount';
                           }
-                          if (double.tryParse(value.replaceAll(',', '.')) == null) {
-                            return 'Geçerli bir sayı girin';
+                          if (double.tryParse(value.replaceAll(',', '.')) ==
+                              null) {
+                            return 'Please enter a valid number';
                           }
                           return null;
                         },
@@ -159,7 +162,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                       child: DropdownButtonFormField<Currency>(
                         value: _selectedCurrency,
                         decoration: const InputDecoration(
-                          labelText: 'Para Birimi',
+                          labelText: 'Currency',
                           border: OutlineInputBorder(),
                         ),
                         items: Currency.values.map((Currency currency) {
@@ -183,12 +186,12 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                 TextFormField(
                   controller: _descriptionController,
                   decoration: const InputDecoration(
-                    labelText: 'Açıklama',
+                    labelText: 'Description',
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Lütfen bir açıklama girin';
+                      return 'Please enter a description';
                     }
                     return null;
                   },
@@ -197,9 +200,11 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      final provider = Provider.of<TransactionProvider>(context, listen: false);
+                      final provider = Provider.of<TransactionProvider>(context,
+                          listen: false);
                       provider.addTransaction(
-                        double.parse(_amountController.text.replaceAll(',', '.')),
+                        double.parse(
+                            _amountController.text.replaceAll(',', '.')),
                         _descriptionController.text,
                         widget.isIncome,
                         _selectedCurrency,
@@ -209,11 +214,11 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: widget.isIncome ? Colors.green : Colors.red,
+                    backgroundColor: Colors.black,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
                   child: Text(
-                    'Kaydet',
+                    'Save',
                     style: const TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),
@@ -232,18 +237,19 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(widget.isIncome ? 'Yeni Gelir Kategorisi' : 'Yeni Harcama Kategorisi'),
+        title: Text(
+            widget.isIncome ? 'New Income Category' : 'New Expense Category'),
         content: Form(
           key: formKey,
           child: TextFormField(
             controller: nameController,
             decoration: const InputDecoration(
-              labelText: 'Kategori Adı',
+              labelText: 'Category Name',
               border: OutlineInputBorder(),
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Lütfen bir kategori adı girin';
+                return 'Please enter a category name';
               }
               return null;
             },
@@ -252,12 +258,13 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('İptal'),
+            child: const Text('Cancel'),
           ),
           ElevatedButton(
             onPressed: () {
               if (formKey.currentState!.validate()) {
-                final categoryProvider = Provider.of<CategoryProvider>(context, listen: false);
+                final categoryProvider =
+                    Provider.of<CategoryProvider>(context, listen: false);
                 categoryProvider.addCategory(
                   nameController.text,
                   widget.isIncome,
@@ -265,7 +272,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                 Navigator.pop(context);
               }
             },
-            child: const Text('Ekle'),
+            child: const Text('Add'),
           ),
         ],
       ),
