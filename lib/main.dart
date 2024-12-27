@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import './screens/home_screen.dart';
+import './screens/splash_screen.dart';
 import './providers/transaction_provider.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -15,7 +15,14 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flowwie',
-        home: HomeScreen(),
+        theme: ThemeData(
+          primaryColor: Colors.black,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.black,
+            primary: Colors.black,
+          ),
+        ),
+        home: const SplashScreen(),
       ),
     );
   }

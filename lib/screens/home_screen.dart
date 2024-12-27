@@ -33,7 +33,8 @@ class HomeScreen extends StatelessWidget {
         ),
         Text(
           amount,
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: color),
+          style: TextStyle(
+              fontSize: 24, fontWeight: FontWeight.bold, color: color),
         ),
       ],
     );
@@ -117,7 +118,8 @@ class HomeScreen extends StatelessWidget {
                                   items: Currency.values.map((currency) {
                                     return DropdownMenuItem(
                                       value: currency,
-                                      child: Text(currency.toString().split('.').last),
+                                      child: Text(
+                                          currency.toString().split('.').last),
                                     );
                                   }).toList(),
                                   onChanged: (Currency? newCurrency) {
@@ -138,12 +140,14 @@ class HomeScreen extends StatelessWidget {
                               children: [
                                 _buildSummaryItem(
                                   label: 'Income',
-                                  amount: '${getCurrencySymbol(provider.selectedCurrency)}${provider.totalIncome.toStringAsFixed(2)}',
+                                  amount:
+                                      '${getCurrencySymbol(provider.selectedCurrency)}${provider.totalIncome.toStringAsFixed(2)}',
                                   color: Colors.green,
                                 ),
                                 _buildSummaryItem(
                                   label: 'Expenses',
-                                  amount: '${getCurrencySymbol(provider.selectedCurrency)}${provider.totalExpenses.toStringAsFixed(2)}',
+                                  amount:
+                                      '${getCurrencySymbol(provider.selectedCurrency)}${provider.totalExpenses.toStringAsFixed(2)}',
                                   color: Colors.red,
                                 ),
                               ],
@@ -259,9 +263,12 @@ class HomeScreen extends StatelessWidget {
                   ),
                 );
               },
-              label: const Text('Add Income'),
-              icon: const Icon(Icons.add),
-              backgroundColor: Colors.green,
+              label: const Text(
+                'Add Income',
+                style: TextStyle(color: Colors.white),
+              ),
+              icon: const Icon(Icons.add, color: Colors.white),
+              backgroundColor: Colors.black,
             ),
             FloatingActionButton.extended(
               heroTag: 'expense',
@@ -274,9 +281,10 @@ class HomeScreen extends StatelessWidget {
                   ),
                 );
               },
-              label: const Text('Add Expense'),
-              icon: const Icon(Icons.remove),
-              backgroundColor: Colors.red,
+              label: const Text('Add Expense',
+                  style: TextStyle(color: Colors.white)),
+              icon: const Icon(Icons.remove, color: Colors.white),
+              backgroundColor: Colors.black,
             ),
           ],
         ),
