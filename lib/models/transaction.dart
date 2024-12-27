@@ -1,9 +1,4 @@
-enum Currency {
-  USD,
-  EUR,
-  GBP,
-  TRY,
-}
+import '../models/currency.dart';
 
 class Transaction {
   final String id;
@@ -12,6 +7,7 @@ class Transaction {
   final DateTime date;
   final bool isIncome;
   final Currency currency;
+  final String categoryId;
 
   Transaction({
     required this.id,
@@ -20,6 +16,7 @@ class Transaction {
     required this.date,
     required this.isIncome,
     required this.currency,
+    required this.categoryId,
   });
 
   // JSON serialization methods
@@ -30,7 +27,8 @@ class Transaction {
       'description': description,
       'date': date.toIso8601String(),
       'isIncome': isIncome,
-      'currency': currency.toString(),
+      'currency': currency.toString().split('.').last,
+      'categoryId': categoryId,
     };
   }
 
@@ -42,9 +40,10 @@ class Transaction {
       date: DateTime.parse(json['date']),
       isIncome: json['isIncome'],
       currency: Currency.values.firstWhere(
-        (c) => c.toString() == json['currency'],
+        (c) => c.toString().split('.').last == json['currency'],
         orElse: () => Currency.USD,
       ),
+      categoryId: json['categoryId'],
     );
   }
 }

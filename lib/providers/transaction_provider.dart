@@ -1,11 +1,12 @@
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 import '../models/transaction.dart';
+import '../models/currency.dart';
 
 class TransactionProvider with ChangeNotifier {
   List<Transaction> _transactions = [];
-  Currency _selectedCurrency = Currency.USD;
+  Currency _selectedCurrency = Currency.TRY;
   static const String _transactionsKey = 'transactions';
   static const String _currencyKey = 'selected_currency';
 
@@ -26,7 +27,7 @@ class TransactionProvider with ChangeNotifier {
     if (currencyString != null) {
       _selectedCurrency = Currency.values.firstWhere(
         (c) => c.toString() == currencyString,
-        orElse: () => Currency.USD,
+        orElse: () => Currency.TRY,
       );
     }
     notifyListeners();
@@ -137,14 +138,17 @@ class TransactionProvider with ChangeNotifier {
     String description,
     bool isIncome,
     Currency currency,
+    String categoryId,
+    [DateTime? date]
   ) {
     final transaction = Transaction(
       id: DateTime.now().toString(),
       amount: amount,
       description: description,
-      date: DateTime.now(),
+      date: date ?? DateTime.now(),
       isIncome: isIncome,
       currency: currency,
+      categoryId: categoryId,
     );
     _transactions.add(transaction);
     _saveData();

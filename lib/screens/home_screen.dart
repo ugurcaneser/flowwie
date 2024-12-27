@@ -1,8 +1,7 @@
+import 'package:flowwie/models/currency.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'add_transaction_screen.dart';
 import '../providers/transaction_provider.dart';
-import '../models/transaction.dart';
 import '../widgets/animated_fab.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -204,6 +203,8 @@ class HomeScreen extends StatelessWidget {
                                     transaction.description,
                                     transaction.isIncome,
                                     transaction.currency,
+                                    transaction.categoryId,
+                                    transaction.date,
                                   );
                                 },
                               ),
