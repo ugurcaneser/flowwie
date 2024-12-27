@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './providers/transaction_provider.dart';
 import './providers/category_provider.dart';
-import './screens/home_screen.dart';
+import './screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,15 +24,21 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           scaffoldBackgroundColor: Colors.white,
           fontFamily: 'Poppins',
-          textTheme: const TextTheme(
-            bodyLarge: TextStyle(fontFamily: 'Poppins'),
-            bodyMedium: TextStyle(fontFamily: 'Poppins'),
-            titleLarge: TextStyle(fontFamily: 'Poppins'),
-            titleMedium: TextStyle(fontFamily: 'Poppins'),
-            titleSmall: TextStyle(fontFamily: 'Poppins'),
+          textTheme: TextTheme(
+            bodyLarge: TextStyle(fontFamily: 'Poppins', fontSize: 14),
+            bodyMedium: TextStyle(fontFamily: 'Poppins', fontSize: 12),
+            titleLarge: TextStyle(fontFamily: 'Poppins', fontSize: 20, fontWeight: FontWeight.w600),
+            titleMedium: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),
+            titleSmall: TextStyle(fontFamily: 'Poppins', fontSize: 14, fontWeight: FontWeight.w500),
+          ),
+          appBarTheme: const AppBarTheme(
+            elevation: 0,
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            centerTitle: true,
           ),
         ),
-        home: const HomeScreen(),
+        home: const SplashScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

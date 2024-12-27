@@ -9,9 +9,9 @@ class AddTransactionScreen extends StatefulWidget {
   final bool isIncome;
 
   const AddTransactionScreen({
-    Key? key,
+    super.key,
     required this.isIncome,
-  }) : super(key: key);
+  });
 
   @override
   State<AddTransactionScreen> createState() => _AddTransactionScreenState();
