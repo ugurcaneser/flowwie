@@ -1,9 +1,45 @@
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 import '../models/transaction.dart';
 
 class TransactionProvider with ChangeNotifier {
-  final List<Transaction> _transactions = [];
+  List<Transaction> _transactions = [];
   Currency _selectedCurrency = Currency.USD;
+  static const String _transactionsKey = 'transactions';
+  static const String _currencyKey = 'selected_currency';
+
+  TransactionProvider() {
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? transactionsJson = prefs.getString(_transactionsKey);
+    final String? currencyString = prefs.getString(_currencyKey);
+
+    if (transactionsJson != null) {
+      final List<dynamic> decodedList = json.decode(transactionsJson);
+      _transactions = decodedList.map((item) => Transaction.fromJson(item)).toList();
+    }
+
+    if (currencyString != null) {
+      _selectedCurrency = Currency.values.firstWhere(
+        (c) => c.toString() == currencyString,
+        orElse: () => Currency.USD,
+      );
+    }
+    notifyListeners();
+  }
+
+  Future<void> _saveData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String transactionsJson = json.encode(
+      _transactions.map((t) => t.toJson()).toList(),
+    );
+    await prefs.setString(_transactionsKey, transactionsJson);
+    await prefs.setString(_currencyKey, _selectedCurrency.toString());
+  }
 
   // Exchange rates (simplified - in real app, these should come from an API)
   final Map<Currency, Map<Currency, double>> _exchangeRates = {
@@ -38,6 +74,7 @@ class TransactionProvider with ChangeNotifier {
 
   void setCurrency(Currency currency) {
     _selectedCurrency = currency;
+    _saveData();
     notifyListeners();
   }
 
@@ -107,15 +144,16 @@ class TransactionProvider with ChangeNotifier {
       description: description,
       date: DateTime.now(),
       isIncome: isIncome,
-      currency: currency ?? _selectedCurrency,
+      currency: currency,
     );
-
     _transactions.add(transaction);
+    _saveData();
     notifyListeners();
   }
 
-  void deleteTransaction(String id) {
+  void removeTransaction(String id) {
     _transactions.removeWhere((transaction) => transaction.id == id);
+    _saveData();
     notifyListeners();
   }
 }

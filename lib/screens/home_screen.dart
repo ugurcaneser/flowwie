@@ -183,7 +183,7 @@ class HomeScreen extends StatelessWidget {
                         onDismissed: (direction) {
                           Provider.of<TransactionProvider>(context,
                                   listen: false)
-                              .deleteTransaction(transaction.id);
+                              .removeTransaction(transaction.id);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
