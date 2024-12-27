@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'add_transaction_screen.dart';
 import '../providers/transaction_provider.dart';
 import '../models/transaction.dart';
+import '../widgets/animated_fab.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -43,7 +44,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           'Flowwie',
@@ -84,7 +85,8 @@ class HomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Card(
-                  elevation: 2,
+                  elevation: 4,
+                  color: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -97,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                           'Total Balance',
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.grey,
+                            color: Colors.black,
                           ),
                         ),
                         const SizedBox(height: 8),
@@ -247,48 +249,8 @@ class HomeScreen extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(left: 30),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            FloatingActionButton.extended(
-              heroTag: 'income',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        const AddTransactionScreen(isIncome: true),
-                  ),
-                );
-              },
-              label: const Text(
-                'Add Income',
-                style: TextStyle(color: Colors.white),
-              ),
-              icon: const Icon(Icons.add, color: Colors.white),
-              backgroundColor: Colors.black,
-            ),
-            FloatingActionButton.extended(
-              heroTag: 'expense',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        const AddTransactionScreen(isIncome: false),
-                  ),
-                );
-              },
-              label: const Text('Add Expense',
-                  style: TextStyle(color: Colors.white)),
-              icon: const Icon(Icons.remove, color: Colors.white),
-              backgroundColor: Colors.black,
-            ),
-          ],
-        ),
-      ),
+      floatingActionButton: const AnimatedFab(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
