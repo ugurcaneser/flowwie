@@ -53,13 +53,10 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Card(
-                    elevation: 4,
+                    elevation: 0,
                     color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
                     child: Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -78,18 +75,20 @@ class HomeScreen extends StatelessWidget {
                                   Text(
                                     '${getCurrencySymbol(provider.selectedCurrency)}${provider.totalBalance.toStringAsFixed(2)}',
                                     style: const TextStyle(
-                                      fontSize: 32,
+                                      fontSize: 28,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
+                                  const SizedBox(width: 6),
                                   DropdownButton<Currency>(
                                     value: provider.selectedCurrency,
                                     items: Currency.values.map((currency) {
                                       return DropdownMenuItem(
                                         value: currency,
-                                        child: Text(
-                                            currency.toString().split('.').last),
+                                        child: Text(currency
+                                            .toString()
+                                            .split('.')
+                                            .last),
                                       );
                                     }).toList(),
                                     onChanged: (Currency? newCurrency) {
@@ -102,11 +101,11 @@ class HomeScreen extends StatelessWidget {
                               );
                             },
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 8),
                           Consumer<TransactionProvider>(
                             builder: (context, provider, _) {
                               return Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   _buildSummaryItem(
                                     label: 'Income',
@@ -114,6 +113,7 @@ class HomeScreen extends StatelessWidget {
                                         '${getCurrencySymbol(provider.selectedCurrency)}${provider.totalIncome.toStringAsFixed(2)}',
                                     color: Colors.black,
                                   ),
+                                  const SizedBox(width: 30),
                                   _buildSummaryItem(
                                     label: 'Expenses',
                                     amount:
@@ -128,12 +128,14 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  const Text(
-                    'Recent Transactions',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                  const SizedBox(height: 14),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      'Recent Transactions',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -186,7 +188,9 @@ class HomeScreen extends StatelessWidget {
                               leading: CircleAvatar(
                                 backgroundColor: Colors.white,
                                 child: Icon(
-                                  transaction.isIncome ? Icons.add : Icons.remove,
+                                  transaction.isIncome
+                                      ? Icons.add
+                                      : Icons.remove,
                                   color: Colors.black,
                                 ),
                               ),
