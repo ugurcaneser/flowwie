@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/transaction_provider.dart';
 import '../widgets/animated_fab.dart';
+import '../screens/transaction_detail_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -147,7 +148,7 @@ class HomeScreen extends StatelessWidget {
                         return Dismissible(
                           key: Key(transaction.id),
                           background: Container(
-                            color: Colors.red,
+                            color: Colors.black,
                             alignment: Alignment.centerRight,
                             padding: const EdgeInsets.only(right: 20),
                             child: const Icon(
@@ -182,9 +183,19 @@ class HomeScreen extends StatelessWidget {
                               ),
                             );
                           },
-                          child: Card(
-                            margin: const EdgeInsets.symmetric(vertical: 8),
+                          child: Container(
+                            color: Colors.white,
                             child: ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        TransactionDetailScreen(
+                                            transaction: transaction),
+                                  ),
+                                );
+                              },
                               leading: CircleAvatar(
                                 backgroundColor: Colors.white,
                                 child: Icon(

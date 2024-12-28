@@ -22,19 +22,52 @@ class CategoryProvider with foundation.ChangeNotifier {
     if (_categories.isEmpty) {
       // Default expense categories
       final defaultExpenses = [
-        Category(id: 'exp_food', name: 'Yiyecek & İçecek', isIncome: false, iconName: '0xe56c'),
-        Category(id: 'exp_transport', name: 'Ulaşım', isIncome: false, iconName: '0xe1d5'),
-        Category(id: 'exp_shopping', name: 'Alışveriş', isIncome: false, iconName: '0xe59c'),
-        Category(id: 'exp_bills', name: 'Faturalar', isIncome: false, iconName: '0xe536'),
-        Category(id: 'exp_health', name: 'Sağlık', isIncome: false, iconName: '0xe3f3'),
+        Category(
+            id: 'exp_food',
+            name: 'Food & Drink',
+            isIncome: false,
+            iconName: '0xe56c'),
+        Category(
+            id: 'exp_transport',
+            name: 'Transport',
+            isIncome: false,
+            iconName: '0xe1d5'),
+        Category(
+            id: 'exp_shopping',
+            name: 'Shopping',
+            isIncome: false,
+            iconName: '0xe59c'),
+        Category(
+            id: 'exp_bills',
+            name: 'Bills',
+            isIncome: false,
+            iconName: '0xe536'),
+        Category(
+            id: 'exp_health',
+            name: 'Health',
+            isIncome: false,
+            iconName: '0xe3f3'),
       ];
 
       // Default income categories
       final defaultIncomes = [
-        Category(id: 'inc_salary', name: 'Maaş', isIncome: true, iconName: '0xe850'),
-        Category(id: 'inc_freelance', name: 'Serbest Çalışma', isIncome: true, iconName: '0xe943'),
-        Category(id: 'inc_investment', name: 'Yatırım', isIncome: true, iconName: '0xe8e4'),
-        Category(id: 'inc_gift', name: 'Hediye', isIncome: true, iconName: '0xe8f6'),
+        Category(
+            id: 'inc_salary',
+            name: 'Salary',
+            isIncome: true,
+            iconName: '0xe850'),
+        Category(
+            id: 'inc_freelance',
+            name: 'Freelance',
+            isIncome: true,
+            iconName: '0xe943'),
+        Category(
+            id: 'inc_investment',
+            name: 'Investment',
+            isIncome: true,
+            iconName: '0xe8e4'),
+        Category(
+            id: 'inc_gift', name: 'Gift', isIncome: true, iconName: '0xe8f6'),
       ];
 
       _categories = [...defaultExpenses, ...defaultIncomes];
@@ -55,12 +88,14 @@ class CategoryProvider with foundation.ChangeNotifier {
 
   Future<void> _saveCategories() async {
     final prefs = await SharedPreferences.getInstance();
-    final String encodedData = json.encode(_categories.map((e) => e.toJson()).toList());
+    final String encodedData =
+        json.encode(_categories.map((e) => e.toJson()).toList());
     await prefs.setString(_categoriesKey, encodedData);
     notifyListeners();
   }
 
-  Future<void> addCategory(String name, bool isIncome, {String? iconName}) async {
+  Future<void> addCategory(String name, bool isIncome,
+      {String? iconName}) async {
     final newCategory = Category(
       id: DateTime.now().toString(),
       name: name,
