@@ -1,4 +1,5 @@
 import 'package:flowwie/models/currency.dart';
+import 'package:flowwie/providers/category_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/transaction_provider.dart';
@@ -18,6 +19,15 @@ class HomeScreen extends StatelessWidget {
         return '£';
       case Currency.TRY:
         return '₺';
+    }
+  }
+
+  IconData? getIconData(String? iconName) {
+    if (iconName == null) return null;
+    try {
+      return IconData(int.parse(iconName), fontFamily: 'MaterialIcons');
+    } catch (e) {
+      return Icons.category;
     }
   }
 
@@ -198,11 +208,16 @@ class HomeScreen extends StatelessWidget {
                               },
                               leading: CircleAvatar(
                                 backgroundColor: Colors.white,
-                                child: Icon(
-                                  transaction.isIncome
-                                      ? Icons.add
-                                      : Icons.remove,
-                                  color: Colors.black,
+                                child: Consumer<CategoryProvider>(
+                                  builder: (context, categoryProvider, child) {
+                                    final category = categoryProvider.categories
+                                        .firstWhere((cat) => cat.id == transaction.categoryId);
+                                    return Icon(
+                                      getIconData(category.iconName) ?? 
+                                          (transaction.isIncome ? Icons.add : Icons.remove),
+                                      color: Colors.black,
+                                    );
+                                  },
                                 ),
                               ),
                               title: Text(transaction.description),

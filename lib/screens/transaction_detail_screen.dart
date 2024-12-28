@@ -4,8 +4,7 @@ import '../models/transaction.dart'; // Transaction modelini uygun şekilde içe
 class TransactionDetailScreen extends StatelessWidget {
   final Transaction transaction;
 
-  const TransactionDetailScreen({Key? key, required this.transaction})
-      : super(key: key);
+  const TransactionDetailScreen({super.key, required this.transaction});
 
   @override
   Widget build(BuildContext context) {
