@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import './providers/transaction_provider.dart';
 import './providers/category_provider.dart';
 import './screens/home_screen.dart';
+import './screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,10 +21,10 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flowwie',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-          scaffoldBackgroundColor: Colors.white,
-          fontFamily: 'Poppins',
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
           textTheme: TextTheme(
             bodyLarge: TextStyle(fontFamily: 'Poppins', fontSize: 14),
             bodyMedium: TextStyle(fontFamily: 'Poppins', fontSize: 12),
@@ -41,8 +42,11 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.w500),
           ),
         ),
-        home: const HomeScreen(),
-        debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const SplashScreen(),
+          '/home': (context) => const HomeScreen(),
+        },
       ),
     );
   }

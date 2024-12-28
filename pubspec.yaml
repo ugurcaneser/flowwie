@@ -64,7 +64,6 @@ flutter:
 
   assets:
     - lib/assets/icons/
-
   fonts:
     - family: Poppins
       fonts:
