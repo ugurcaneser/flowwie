@@ -58,13 +58,22 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     }
   }
 
-  IconData? getIconData(String? iconName) {
-    if (iconName == null) return null;
-    try {
-      return IconData(int.parse(iconName), fontFamily: 'MaterialIcons');
-    } catch (e) {
-      return Icons.category;
-    }
+  final Map<String, IconData> _iconMap = {
+    '58712': Icons.category,
+    '58713': Icons.shopping_cart,
+    '58714': Icons.restaurant,
+    '58715': Icons.local_gas_station,
+    '58716': Icons.home,
+    '58717': Icons.directions_bus,
+    '58718': Icons.local_hospital,
+    '58719': Icons.movie,
+    '58720': Icons.school,
+    '58721': Icons.attach_money,
+  };
+
+  IconData getIconData(String? iconName) {
+    if (iconName == null) return Icons.category;
+    return _iconMap[iconName] ?? Icons.category;
   }
 
   @override
