@@ -1,7 +1,9 @@
 import 'package:flowwie/models/currency.dart';
 import 'package:flowwie/providers/category_provider.dart';
+import 'package:flowwie/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../providers/transaction_provider.dart';
 import '../widgets/animated_fab.dart';
 import '../screens/transaction_detail_screen.dart';
@@ -22,13 +24,38 @@ class HomeScreen extends StatelessWidget {
     }
   }
 
-  IconData? getIconData(String? iconName) {
-    if (iconName == null) return null;
-    try {
-      return IconData(int.parse(iconName), fontFamily: 'MaterialIcons');
-    } catch (e) {
-      return Icons.category;
-    }
+  IconData getIconData(String? iconName) {
+    if (iconName == null) return FontAwesomeIcons.question;
+
+    // Map string names to FontAwesomeIcons
+    final iconMap = {
+      'house': FontAwesomeIcons.house,
+      'car': FontAwesomeIcons.car,
+      'utensils': FontAwesomeIcons.utensils,
+      'shoppingCart': FontAwesomeIcons.cartShopping,
+      'creditCard': FontAwesomeIcons.creditCard,
+      'plane': FontAwesomeIcons.plane,
+      'heartbeat': FontAwesomeIcons.heartPulse,
+      'graduationCap': FontAwesomeIcons.graduationCap,
+      'gamepad': FontAwesomeIcons.gamepad,
+      'gift': FontAwesomeIcons.gift,
+      'question': FontAwesomeIcons.question,
+      'money': FontAwesomeIcons.moneyBill,
+      'wallet': FontAwesomeIcons.wallet,
+      'investment': FontAwesomeIcons.chartLine,
+      'bagShopping': FontAwesomeIcons.bagShopping,
+      'food': FontAwesomeIcons.utensils,
+      'bus': FontAwesomeIcons.bus,
+      'health': FontAwesomeIcons.briefcaseMedical,
+      'education': FontAwesomeIcons.graduationCap,
+      'entertainment': FontAwesomeIcons.gamepad,
+      'bills': FontAwesomeIcons.fileInvoiceDollar,
+      'fileInvoiceDollar': FontAwesomeIcons.fileInvoiceDollar,
+      'chartLine': FontAwesomeIcons.chartLine,
+      'other': FontAwesomeIcons.ellipsis,
+    };
+
+    return iconMap[iconName.toLowerCase()] ?? FontAwesomeIcons.question;
   }
 
   Widget _buildSummaryItem({
@@ -210,12 +237,27 @@ class HomeScreen extends StatelessWidget {
                                 backgroundColor: Colors.white,
                                 child: Consumer<CategoryProvider>(
                                   builder: (context, categoryProvider, child) {
-                                    final category = categoryProvider.categories
-                                        .firstWhere((cat) => cat.id == transaction.categoryId);
-                                    return Icon(
-                                      getIconData(category.iconName) ?? 
-                                          (transaction.isIncome ? Icons.add : Icons.remove),
+                                    Category? category;
+
+                                    category = categoryProvider.categories
+                                        .cast<Category?>()
+                                        .firstWhere(
+                                          (cat) =>
+                                              cat?.id == transaction.categoryId,
+                                          orElse: () => null,
+                                        );
+
+                                    category ??= Category(
+                                      id: 'default',
+                                      name: 'Unknown',
+                                      iconName: 'question',
+                                      isIncome: false,
+                                    );
+
+                                    return FaIcon(
+                                      getIconData(category.iconName),
                                       color: Colors.black,
+                                      size: 20,
                                     );
                                   },
                                 ),

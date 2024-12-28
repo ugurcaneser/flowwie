@@ -23,51 +23,57 @@ class CategoryProvider with foundation.ChangeNotifier {
       // Default expense categories
       final defaultExpenses = [
         Category(
-            id: 'exp_food',
-            name: 'Food & Drink',
-            isIncome: false,
-            iconName: '0xe56c'),
+          id: 'exp_food',
+          name: 'Food & Drink',
+          isIncome: false,
+          iconName: 'utensils',
+        ),
         Category(
-            id: 'exp_transport',
-            name: 'Transport',
-            isIncome: false,
-            iconName: '0xe1d5'),
+          id: 'exp_transport',
+          name: 'Transport',
+          isIncome: false,
+          iconName: 'bus',
+        ),
         Category(
-            id: 'exp_shopping',
-            name: 'Shopping',
-            isIncome: false,
-            iconName: '0xe59c'),
+          id: 'exp_shopping',
+          name: 'Shopping',
+          isIncome: false,
+          iconName: 'bagShopping',
+        ),
         Category(
-            id: 'exp_bills',
-            name: 'Bills',
-            isIncome: false,
-            iconName: '0xe536'),
+          id: 'exp_bills',
+          name: 'Bills',
+          isIncome: false,
+          iconName: 'fileInvoiceDollar',
+        ),
         Category(
-            id: 'exp_health',
-            name: 'Health',
-            isIncome: false,
-            iconName: '0xe3f3'),
+          id: 'exp_entertainment',
+          name: 'Entertainment',
+          isIncome: false,
+          iconName: 'gamepad',
+        ),
       ];
 
       // Default income categories
       final defaultIncomes = [
         Category(
-            id: 'inc_salary',
-            name: 'Salary',
-            isIncome: true,
-            iconName: '0xe850'),
+          id: 'inc_salary',
+          name: 'Salary',
+          isIncome: true,
+          iconName: 'wallet',
+        ),
         Category(
-            id: 'inc_freelance',
-            name: 'Freelance',
-            isIncome: true,
-            iconName: '0xe943'),
+          id: 'inc_freelance',
+          name: 'Freelance',
+          isIncome: true,
+          iconName: 'house',
+        ),
         Category(
-            id: 'inc_investment',
-            name: 'Investment',
-            isIncome: true,
-            iconName: '0xe8e4'),
-        Category(
-            id: 'inc_gift', name: 'Gift', isIncome: true, iconName: '0xe8f6'),
+          id: 'inc_investment',
+          name: 'Investment',
+          isIncome: true,
+          iconName: 'chartLine',
+        ),
       ];
 
       _categories = [...defaultExpenses, ...defaultIncomes];

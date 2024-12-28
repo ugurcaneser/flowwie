@@ -12,7 +12,6 @@ class _AnimatedFabState extends State<AnimatedFab>
     with SingleTickerProviderStateMixin {
   bool isOpened = false;
   late AnimationController _animationController;
-  late Animation<double> _animateIcon;
   late Animation<double> _translateButton;
   late Animation<double> _opacity;
   final Curve _curve = Curves.easeOut;
@@ -26,9 +25,6 @@ class _AnimatedFabState extends State<AnimatedFab>
     )..addListener(() {
         setState(() {});
       });
-
-    _animateIcon =
-        Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
 
     _translateButton = Tween<double>(
       begin: _fabHeight,
@@ -53,7 +49,7 @@ class _AnimatedFabState extends State<AnimatedFab>
         curve: _curve,
       ),
     ));
-    
+
     super.initState();
   }
 
@@ -92,7 +88,8 @@ class _AnimatedFabState extends State<AnimatedFab>
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const AddTransactionScreen(isIncome: true),
+                builder: (context) =>
+                    const AddTransactionScreen(isIncome: true),
               ),
             );
           },
@@ -131,7 +128,8 @@ class _AnimatedFabState extends State<AnimatedFab>
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const AddTransactionScreen(isIncome: false),
+                builder: (context) =>
+                    const AddTransactionScreen(isIncome: false),
               ),
             );
           },

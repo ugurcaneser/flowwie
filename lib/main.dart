@@ -27,9 +27,18 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(
             bodyLarge: TextStyle(fontFamily: 'Poppins', fontSize: 14),
             bodyMedium: TextStyle(fontFamily: 'Poppins', fontSize: 12),
-            titleLarge: TextStyle(fontFamily: 'Poppins', fontSize: 20, fontWeight: FontWeight.w600),
-            titleMedium: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w500),
-            titleSmall: TextStyle(fontFamily: 'Poppins', fontSize: 14, fontWeight: FontWeight.w500),
+            titleLarge: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 20,
+                fontWeight: FontWeight.w600),
+            titleMedium: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 16,
+                fontWeight: FontWeight.w500),
+            titleSmall: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 14,
+                fontWeight: FontWeight.w500),
           ),
         ),
         home: const HomeScreen(),
