@@ -72,7 +72,7 @@ class CategoryProvider with foundation.ChangeNotifier {
           id: 'inc_investment',
           name: 'Investment',
           isIncome: true,
-          iconName: 'chartLine',
+          iconName: 'chart-line',
         ),
       ];
 

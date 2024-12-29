@@ -119,8 +119,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                       child: Row(
                         children: [
                           if (category.iconName != null)
-                            Icon(getIconData(category.iconName) ??
-                                Icons.category),
+                            Icon(getIconData(category.iconName)),
                           const SizedBox(width: 8),
                           Text(category.name),
                         ],

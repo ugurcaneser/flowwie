@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../utils/size_config.dart';
 
 class TapIndicator extends StatefulWidget {
   final VoidCallback? onDismiss;
@@ -56,8 +56,9 @@ class _TapIndicatorState extends State<TapIndicator>
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: 55,
-      left: 40,
+      bottom:
+          SizeConfig.blockSizeVertical * 6.5, // Adjusted for better positioning
+      left: SizeConfig.blockSizeHorizontal * 10,
       child: SlideTransition(
         position: _slideAnimation,
         child: FadeTransition(
@@ -66,28 +67,29 @@ class _TapIndicatorState extends State<TapIndicator>
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
+                padding: EdgeInsets.symmetric(
+                  horizontal: SizeConfig.blockSizeHorizontal * 4,
+                  vertical: SizeConfig.blockSizeVertical * 1,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.black.withAlpha(204),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius:
+                      BorderRadius.circular(SizeConfig.blockSizeHorizontal * 5),
                 ),
-                child: const Text(
+                child: Text(
                   'Tap',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: SizeConfig.blockSizeHorizontal * 3.5,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
-              const FaIcon(
-                FontAwesomeIcons.arrowRight,
+              SizedBox(width: SizeConfig.blockSizeHorizontal * 2),
+              Icon(
+                Icons.arrow_forward,
                 color: Colors.black,
-                size: 18,
+                size: SizeConfig.blockSizeHorizontal * 4.5,
               ),
             ],
           ),

@@ -3,7 +3,6 @@ import 'package:flowwie/providers/category_provider.dart';
 import 'package:flowwie/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../providers/transaction_provider.dart';
 import '../widgets/animated_fab.dart';
 import '../screens/transaction_detail_screen.dart';
@@ -46,37 +45,38 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   IconData getIconData(String? iconName) {
-    if (iconName == null) return FontAwesomeIcons.question;
+    if (iconName == null) return Icons.help_outline;
 
-    // Map string names to FontAwesomeIcons
+    // Map string names to Material Icons
     final iconMap = {
-      'house': FontAwesomeIcons.house,
-      'car': FontAwesomeIcons.car,
-      'utensils': FontAwesomeIcons.utensils,
-      'shoppingCart': FontAwesomeIcons.cartShopping,
-      'creditCard': FontAwesomeIcons.creditCard,
-      'plane': FontAwesomeIcons.plane,
-      'heartbeat': FontAwesomeIcons.heartPulse,
-      'graduationCap': FontAwesomeIcons.graduationCap,
-      'gamepad': FontAwesomeIcons.gamepad,
-      'gift': FontAwesomeIcons.gift,
-      'question': FontAwesomeIcons.question,
-      'money': FontAwesomeIcons.moneyBill,
-      'wallet': FontAwesomeIcons.wallet,
-      'investment': FontAwesomeIcons.chartLine,
-      'bagShopping': FontAwesomeIcons.bagShopping,
-      'food': FontAwesomeIcons.utensils,
-      'bus': FontAwesomeIcons.bus,
-      'health': FontAwesomeIcons.briefcaseMedical,
-      'education': FontAwesomeIcons.graduationCap,
-      'entertainment': FontAwesomeIcons.gamepad,
-      'bills': FontAwesomeIcons.fileInvoiceDollar,
-      'fileInvoiceDollar': FontAwesomeIcons.fileInvoiceDollar,
-      'chartLine': FontAwesomeIcons.chartLine,
-      'other': FontAwesomeIcons.ellipsis,
+      'house': Icons.home_work,
+      'car': Icons.directions_car,
+      'utensils': Icons.restaurant_menu,
+      'shoppingCart': Icons.shopping_cart,
+      'creditCard': Icons.credit_card,
+      'plane': Icons.flight,
+      'heartbeat': Icons.favorite,
+      'graduationCap': Icons.school,
+      'gamepad': Icons.games,
+      'gift': Icons.card_giftcard,
+      'question': Icons.help_outline,
+      'money': Icons.payments,
+      'wallet': Icons.account_balance_wallet,
+      'investment': Icons.trending_up,
+      'bagShopping': Icons.shopping_bag,
+      'food': Icons.restaurant,
+      'bus': Icons.directions_bus_filled,
+      'health': Icons.medical_services,
+      'education': Icons.school,
+      'entertainment': Icons.games,
+      'bills': Icons.receipt_long,
+      'fileInvoiceDollar': Icons.receipt_long,
+      'chartLine': Icons.show_chart,
+      'chart-line': Icons.show_chart,
+      'other': Icons.more_horiz,
     };
 
-    return iconMap[iconName.toLowerCase()] ?? FontAwesomeIcons.question;
+    return iconMap[iconName.toLowerCase()] ?? Icons.help_outline;
   }
 
   Widget _buildSummaryItem({
@@ -228,7 +228,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     action: SnackBarAction(
                                       label: 'Undo',
                                       onPressed: () {
-                                        Provider.of<TransactionProvider>(context,
+                                        Provider.of<TransactionProvider>(
+                                                context,
                                                 listen: false)
                                             .addTransaction(
                                           transaction.amount,
@@ -259,14 +260,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                   leading: CircleAvatar(
                                     backgroundColor: Colors.white,
                                     child: Consumer<CategoryProvider>(
-                                      builder: (context, categoryProvider, child) {
+                                      builder:
+                                          (context, categoryProvider, child) {
                                         Category? category;
 
                                         category = categoryProvider.categories
                                             .cast<Category?>()
                                             .firstWhere(
                                               (cat) =>
-                                                  cat?.id == transaction.categoryId,
+                                                  cat?.id ==
+                                                  transaction.categoryId,
                                               orElse: () => null,
                                             );
 
@@ -277,7 +280,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           isIncome: false,
                                         );
 
-                                        return FaIcon(
+                                        return Icon(
                                           getIconData(category.iconName),
                                           color: Colors.black,
                                           size: 20,
@@ -309,7 +312,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ),
-          if (_showTapIndicator) 
+          if (_showTapIndicator)
             TapIndicator(
               onDismiss: () => setState(() => _showTapIndicator = false),
             ),
