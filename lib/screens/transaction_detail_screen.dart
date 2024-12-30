@@ -9,6 +9,7 @@ class TransactionDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: const Text('Transaction Details'),
@@ -20,18 +21,19 @@ class TransactionDetailScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Kind: ${transaction.isIncome ? 'Income' : 'Expense'}',
-                style: const TextStyle(fontSize: 20)),
+            Text('Category: ${transaction.isIncome ? 'Income' : 'Expense'}',
+                style: const TextStyle(fontSize: 16)),
             Text('Description: ${transaction.description}',
-                style: const TextStyle(fontSize: 20)),
+                style: const TextStyle(fontSize: 16)),
             Text('Amount: ${transaction.amount}',
-                style: const TextStyle(fontSize: 20)),
-            Text('Date: ${transaction.date}',
-                style: const TextStyle(fontSize: 20)),
+                style: const TextStyle(fontSize: 16)),
+            Text(
+                'Date: ${transaction.date.day}/${transaction.date.month}/${transaction.date.year}',
+                style: const TextStyle(fontSize: 16)),
           ],
         ),
       ),

@@ -81,6 +81,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     Provider.of<CategoryProvider>(context);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           widget.isIncome ? 'Add Income' : 'Add Expense',
